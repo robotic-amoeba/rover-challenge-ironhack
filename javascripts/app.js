@@ -71,3 +71,20 @@ function moveForward(rover){
   }
   console.log("Current position: X=" + rover.x + " Y=" + rover.y);
 }
+
+function movementSequence(sequence) {
+  for (let elm of sequence) {
+    switch (elm) {
+      case "f":
+        moveForward(rover);
+        break;
+      case "r":
+        turnRight(rover);
+        break;
+      case "l":
+        turnLeft(rover);
+        break;
+    }
+  } 
+return "ready to go again"  
+}
