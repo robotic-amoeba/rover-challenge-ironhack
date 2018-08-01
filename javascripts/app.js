@@ -139,6 +139,15 @@ function moveBackwards(rover) {
 }
 
 function movementSequence(sequence) {
+
+  //checks if the sequence is valid before moving the rover 
+  for (let elm of sequence) {
+    if (elm !== "f" && elm !== "b" && elm !== "r" && elm !== "l") {
+      return 'Bad movement sequence. Use f,b,r or l to move forward backwards right or left, like in "ffrlb"'
+    } else {continue} 
+  }
+
+  //moves the rover    
   for (let elm of sequence) {
     switch (elm) {
       case "f":
@@ -153,7 +162,9 @@ function movementSequence(sequence) {
       case "b":
         moveBackwards(rover);
         break;
+    
     }
+    
   }   
   rover.travelLog.push([rover.x, rover.y]);
   //Travel Log
