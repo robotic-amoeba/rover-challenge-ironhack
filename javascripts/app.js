@@ -9,6 +9,43 @@ var rover = {
 
 // ======================
 
+let map = [//Y= 0    1    2    3    4    5    6    7    8    9
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=0
+              ["O", "X", "O", "O", "O", "O", "O", "O", "O", "O"], //x=1
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=2
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=3
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=4
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=5
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=6
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=7
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //x=8
+              ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]  //x=9
+]
+ 
+function paintMap(map) {
+  let count = 0;
+  document.write("<br><br>")
+  for (let row of map) {
+    for (let tile of row) {
+      count += 1;
+      if (count >= 11) {
+        count=1;
+        document.write("<br>");
+      }
+      if (tile === "O") {
+        document.write("     O     ");
+      }
+      else if (tile === "X") {
+        document.write("     X     ");
+    
+      }
+      else if (tile === "R") {
+        document.write("     R     ");
+      }
+    }
+  }
+}
+
 function turnLeft(rover){
   console.log("turnLeft was called!");
   switch (rover.direction) {
@@ -59,38 +96,51 @@ function moveForward(rover){
   switch (rover.direction) {
     
     case "N":
-      if (rover.y === 0) {
-      console.error("Can not move to negative coordinates");
-      break;
-      } else {
-      rover.y -= 1;
-      break;
+      if (rover.y === 0) {    //checks map limits
+        console.error("Can not move to negative coordinates");
+        break;
+      } else if (map[rover.x][rover.y - 1] === "X") {   //checks obstacles (X values) in map array
+        console.error("There's an obstacle in the way! Position: [" + rover.x + ", " + (rover.y - 1) + "]");
+        break;
+      } else {    //actually moves the rover if everything is ok
+        rover.y -= 1;
+        break;
       }
 
     case "E":
-      if (rover.x === 10) {
-      console.error("Can not move beyond the limit of the map (x:10, y:10)");
-      break;
+      if (rover.x === 9) {
+        console.error("Can not move beyond the limit of the map (x:10, y:10)");
+        break;
+      } else if (map[rover.x + 1][rover.y] === "X") {
+        console.error("There's an obstacle in the way! Position: [" + (rover.x + 1) + ", " + rover.y + "]");
+        break;
       } else {
-      rover.x += 1;
-      break;
+        rover.x += 1;
+        break;
       }
 
     case "S":
-      if (rover.y === 10) {
-      console.error("Can not move beyond the limit of the map (x:10, y:10)");
-      break;
+      if (rover.y === 9) {
+        console.error("Can not move beyond the limit of the map (x:10, y:10)");
+        break;
+      } else if (map[rover.x][rover.y + 1] === "X") {
+        console.error("There's an obstacle in the way! Position: [" + rover.x + ", " + (rover.y + 1) + "]");
+        break;
+      } else {
+        rover.y += 1;
+        break;
       }
-      rover.y += 1;
-      break;
 
     case "W":
       if (rover.x === 0) {
         console.error("Can not move to negative coordinates");
         break;
+      } else if (map[rover.x - 1][rover.y] === "X") {
+        console.error("There's an obstacle in the way! Position: [" + (rover.x - 1) + ", " + rover.y + "]");
+        break;
       } else {
-      rover.x -= 1;
-      break;
+        rover.x -= 1;
+        break;
       }
   }
   console.log("Current position: X=" + rover.x + " Y=" + rover.y);
@@ -101,38 +151,39 @@ function moveBackwards(rover) {
   switch (rover.direction) {
     
     case "N":
-      if (rover.y === 10) {
-      console.error("Can not move beyond the limit of the map (x:10, y:10)");
-      break;
+      if (rover.y === 9) {
+        console.error("Can not move beyond the limit of the map (x:10, y:10)");
+        break;
       } else {
-      rover.y += 1;
-      break;
+        rover.y += 1;
+        break;
       }
 
     case "E":
       if (rover.x === 0) {
-      console.error("Can not move to negative coordinates");
-      break;
+        console.error("Can not move to negative coordinates");
+        break;
       } else {
-      rover.x -= 1;
-      break;
+        rover.x -= 1;
+        break;
       }
 
     case "S":
       if (rover.y === 0) {
-      console.error("Can not move to negative coordinates");
-      break;
-      }
-      rover.y -= 1;
-      break;
-
-    case "W":
-      if (rover.x === 10) {
         console.error("Can not move to negative coordinates");
         break;
       } else {
-      rover.x += 1;
-      break;
+        rover.y -= 1;
+        break;
+      }
+
+    case "W":
+      if (rover.x === 9) {
+        console.error("Can not move to negative coordinates");
+        break;
+      } else {
+        rover.x += 1;
+        break;
       }
   }
   console.log("Current position: X=" + rover.x + " Y=" + rover.y);
@@ -164,13 +215,17 @@ function movementSequence(sequence) {
         break;
     
     }
-    
   }   
-  rover.travelLog.push([rover.x, rover.y]);
+
   //Travel Log
+  rover.travelLog.push([rover.x, rover.y]);
   console.log("Travel Log:");
   for (let elm of rover.travelLog) {
     console.log("[" + elm + "] ");
   }
+  
+  //Updates the rover's position in the map
+  map[rover.x][rover.y] = "R";
+
   return "ready to go again"
 }
