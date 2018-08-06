@@ -70,12 +70,13 @@ function paintMap(map) {
       else {
         document.write("     " + tile + "       ");
       }
-    }
-  }
-  document.write("<hr>")
+    };
+  };
+  document.write("<hr>");
+  return "Painted Map " + numberMap + " in the document";
 };
 
-function turnLeft(rover){
+function turnLeft(rover) {
   console.log("turnLeft was called!");
   switch (rover.direction) {
     case "N":
@@ -93,12 +94,12 @@ function turnLeft(rover){
     case "W":
       rover.direction = "S";
       break;
-  }
+  };
   console.log("Current position: " + rover.direction)
 };
 
 
-function turnRight(rover){
+function turnRight(rover) {
   console.log("turnRight was called!");
   switch (rover.direction) {
     case "N":
@@ -116,11 +117,11 @@ function turnRight(rover){
     case "W":
       rover.direction = "N";
       break;
-  }
+  };
   console.log("Current orientation: " + rover.direction)
 };
 
-function moveForward(rover){
+function moveForward(rover) {
   console.log("moveForward was called");
   switch (rover.direction) {
     
@@ -135,7 +136,7 @@ function moveForward(rover){
         map[rover.y][rover.x] = "O";
         rover.y -= 1;
         break;
-      }
+      };
 
     case "E":
       if (rover.x === 9) {
@@ -148,7 +149,7 @@ function moveForward(rover){
         map[rover.y][rover.x] = "O";
         rover.x += 1;
         break;
-      }
+      };
 
     case "S":
       if (rover.y === 9) {
@@ -161,7 +162,7 @@ function moveForward(rover){
         map[rover.y][rover.x] = "O";
         rover.y += 1;
         break;
-      }
+      };
 
     case "W":
       if (rover.x === 0) {
@@ -174,7 +175,7 @@ function moveForward(rover){
         map[rover.y][rover.x] = "O";
         rover.x -= 1;
         break;
-      }
+      };
   }
   console.log("Current position: X=" + rover.x + " Y=" + rover.y);
 };
@@ -194,7 +195,7 @@ function moveBackwards(rover) {
         map[rover.y][rover.x] = "O";
         rover.y += 1;
         break;
-      }
+      };
 
     case "E":
       if (rover.x === 0) {
@@ -207,7 +208,7 @@ function moveBackwards(rover) {
         map[rover.y][rover.x] = "O";
         rover.x -= 1;
         break;
-      }
+      };
 
     case "S":
       if (rover.y === 0) {
@@ -220,7 +221,7 @@ function moveBackwards(rover) {
         map[rover.y][rover.x] = "O";
         rover.y -= 1;
         break;
-      }
+      };
 
     case "W":
       if (rover.x === 9) {
@@ -233,48 +234,52 @@ function moveBackwards(rover) {
         map[rover.y][rover.x] = "O";
         rover.x += 1;
         break;
-      }
+      };
   }
   console.log("Current position: X=" + rover.x + " Y=" + rover.y);
 };
 
-function movementSequence(rover,  sequence) {
+function movementSequence(rover, sequence) {
 
   //checks if the sequence is valid before moving the rover 
   for (let elm of sequence) {
     if (elm !== "f" && elm !== "b" && elm !== "r" && elm !== "l") {
       return 'Bad movement sequence. Use f,b,r or l to move forward backwards right or left, like in "ffrlb"'
     } else {continue} 
-  }
+  };
 
   //moves the rover    
   for (let elm of sequence) {
-    switch (elm) {
+    switch(elm){
+
       case "f":
         moveForward(rover);
         break;
+
       case "r":
         turnRight(rover);
         break;
+
       case "l":
         turnLeft(rover);
         break;
+
       case "b":
         moveBackwards(rover);
         break;
     
     }
-  }   
+  };   
 
   //Travel Log
   rover.travelLog.push([rover.x, rover.y]);
   console.log("Travel Log:");
   for (let elm of rover.travelLog) {
     console.log("[" + elm + "] ");
-  }
+  };
   
   //Updates the rover's position in the map
   map[rover.y][rover.x] = rover.id;
 
-  return "ready to go again"
-};
+  return "ready to go again";
+}
