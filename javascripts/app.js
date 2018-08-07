@@ -4,10 +4,11 @@ console.log("How to play:\n" +
 "There are a few obstacles in the map marcked with 'X' symbols. \n" +
 "paintMap(map): Paints the map and the rovers that had been deployed (moved). \n" + 
 "movementSequence(rover1, 'rlfb'): turns the rover1 'right, left' and then moves 'forward, backwards'. \n" +
-"Use painMap(map) after moving the rovers to get a new updted map."
+"Use painMap(map) after moving the rovers to get a new updted map. \n" +
+"Use roverOrientation(rover1) if you lose track of the current orientation of your vehicle"
 );
 
-// Rover Object Goes Here
+// Rover Objects
 // ======================
 var rover1 = {
   id: "r1",
@@ -35,6 +36,8 @@ var rover3 = {
 
 // ======================
 
+//MAP
+
 let map = [//X= 0    1    2    3    4    5    6    7    8    9
               ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"], //Y=0
               ["X", "X", "O", "O", "O", "O", "O", "O", "X", "O"], //Y=1
@@ -49,6 +52,7 @@ let map = [//X= 0    1    2    3    4    5    6    7    8    9
 ];
 
 let numberMap = 0;
+
 function paintMap(map) {
   let count = 0;
   numberMap += 1;
@@ -76,6 +80,10 @@ function paintMap(map) {
   return "Painted Map " + numberMap + " in the document";
 };
 
+function roverOrientation(rover) {
+  return "The rover with id:" + rover.id + " is facing " + rover.direction;
+};
+
 function turnLeft(rover) {
   console.log("turnLeft was called!");
   switch (rover.direction) {
@@ -95,7 +103,7 @@ function turnLeft(rover) {
       rover.direction = "S";
       break;
   };
-  console.log("Current position: " + rover.direction)
+  console.log("Current orientation: " + rover.direction)
 };
 
 
